@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    question.level:
+      - [1, 'débutant']
+      - [2, 'intermédiaire']
+      - [3, 'avancé']
 
 services:
     # default configuration for services in *this* file

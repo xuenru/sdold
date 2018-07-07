@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Level;
 use App\Entity\Question;
+use App\Form\QuestionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,10 +45,26 @@ class AdminController extends Controller
     }
 
     /**
+     * @Route("/question/new", name="question_new")
+     */
+    public function newQuestion(Request $request)
+    {
+        d($this->getParameter('question.level'));
+        $em = $this->getDoctrine()->getManager();
+        $question = new Question();
+
+        $form = $this->createForm(QuestionType::class, $question, ['entity_manager' => $em]);
+
+        return $this->render('admin/question/new.html.twig', ['form'=>$form->createView()]);
+    }
+
+    /**
      * @Route("/questions", name="question_list")
      */
     public function questions(Request $request)
     {
         $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
+
+        return $this->render('admin/question/list.html.twig', ['list'=>'listlll']);
     }
 }

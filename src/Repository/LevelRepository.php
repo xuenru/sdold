@@ -19,6 +19,17 @@ class LevelRepository extends ServiceEntityRepository
         parent::__construct($registry, Level::class);
     }
 
+    public function findLevelList()
+    {
+        $list = [];
+        $levels = $this->findAll();
+        foreach ($levels as $level) {
+            $list[$level->getName()] = $level->getId();
+        }
+
+        return $list;
+    }
+
 //    /**
 //     * @return Level[] Returns an array of Level objects
 //     */
