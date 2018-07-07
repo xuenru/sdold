@@ -19,7 +19,7 @@ class Question
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Level", inversedBy="questions")
+     * @ORM\Column(type="integer")
      */
     private $level;
 
@@ -52,18 +52,6 @@ class Question
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLevel(): ?Level
-    {
-        return $this->level;
-    }
-
-    public function setLevel(?Level $level): self
-    {
-        $this->level = $level;
-
-        return $this;
     }
 
     public function getDescription(): ?string
@@ -143,6 +131,18 @@ class Question
         if ($this->tests->contains($test)) {
             $this->tests->removeElement($test);
         }
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
 
         return $this;
     }

@@ -2,6 +2,17 @@
 {% block title %}Nouvelle Questions{% endblock %}
 {% block body %}
     <div class="container">
-        {{ form(form) }}
+        {{ form_start(form) }}
+        {{ form_row(form.description) }}
+        <div>{{ form.options.vars.name }}</div>
+        <ul class="options" data-prototype="{{ form_widget(form.options.vars.prototype)|e('html_attr') }}">
+            {% for row in form.options %}
+                <li>{{ form_row(row) }}</li>
+            {% endfor %}
+        </ul>
+        {{ form_end(form) }}
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('build/js/newQ.js') }}"></script>
 {% endblock %}

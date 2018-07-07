@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Level;
+use App\Entity\Option;
 use App\Entity\Question;
 use App\Form\QuestionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,35 +28,31 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/init-level", name="init-level")
-     */
-    public function initLevel()
-    {
-        $levelList = ['débutant', 'intermédiaire', 'avancé'];
-        $em = $this->getDoctrine()->getManager();
-
-        foreach ($levelList as $levelName) {
-            $level = new Level();
-            $level->setName($levelName);
-            $em->persist($level);
-            $em->flush();
-        }
-
-        return new JsonResponse(['initLevel' => 'ok']);
-    }
-
-    /**
      * @Route("/question/new", name="question_new")
      */
     public function newQuestion(Request $request)
     {
-        d($this->getParameter('question.level'));
         $em = $this->getDoctrine()->getManager();
         $question = new Question();
+        $question->setDescription('test desc')
+            ->setLevel(2)->setAnswer('A');
 
-        $form = $this->createForm(QuestionType::class, $question, ['entity_manager' => $em]);
+        $option1 = new Option();
+        $option1->setLable('A')->setDescription('option safd !111');
+        $question->addOption($option1);
 
-        return $this->render('admin/question/new.html.twig', ['form'=>$form->createView()]);
+        $option2 = new Option();
+        $option2->setLable('B')->setDescription('option 222');
+        $question->addOption($option2);
+
+        $form = $this->createForm(QuestionType::class, $question);
+
+        $form->handleRequest($request);
+        if ($form->isDisabled() && $form->isValid()) {
+            d($form);
+        }
+
+        return $this->render('admin/question/new.html.twig', ['form' => $form->createView()]);
     }
 
     /**
@@ -65,6 +62,6 @@ class AdminController extends Controller
     {
         $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
 
-        return $this->render('admin/question/list.html.twig', ['list'=>'listlll']);
+        return $this->render('admin/question/list.html.twig', ['list' => 'listlll']);
     }
 }
