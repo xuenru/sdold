@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Level;
+use App\Entity\Question;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +26,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/init-level", name="index")
+     * @Route("/init-level", name="init-level")
      */
     public function initLevel()
     {
@@ -42,8 +43,11 @@ class AdminController extends Controller
         return new JsonResponse(['initLevel' => 'ok']);
     }
 
-    public function addQuestion(Request $request)
+    /**
+     * @Route("/questions", name="question_list")
+     */
+    public function questions(Request $request)
     {
-
+        $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
     }
 }

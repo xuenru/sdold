@@ -74,6 +74,9 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
+    "kint-php/kint": {
+        "version": "2.2"
+    },
     "monolog/monolog": {
         "version": "1.23.0"
     },
