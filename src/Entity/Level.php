@@ -24,11 +24,6 @@ class Level
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $time;
-
-    /**
      * @ORM\OneToMany(targetEntity="Question", mappedBy="level")
      */
     private $questions;
@@ -51,18 +46,6 @@ class Level
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getTime(): ?int
-    {
-        return $this->time;
-    }
-
-    public function setTime(int $time): self
-    {
-        $this->time = $time;
 
         return $this;
     }
