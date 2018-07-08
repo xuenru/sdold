@@ -1,6 +1,31 @@
 {% extends 'admin/base.html.twig' %}
 {% block body %}
     <div class="container">
-        {{ list }}
+        <a href="/admin/question/new" class="btn btn-success">Nouvelle Question</a>
+        {% if questions %}
+            <table id="questions" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Niveaus</th>
+                    <th>Questions</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <td>{{ question.level }}</td>
+                        <td>{{ question.description }}</td>
+                        <td>
+                            <a href="/admin/question/edit/{{ question.id }}" class="btn btn-info">Modifier</a>
+                            <a href="/admin/question/delete/{{ question.id }}" class="btn btn-danger">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>pas de questions</p>
+        {% endif %}
     </div>
 {% endblock %}

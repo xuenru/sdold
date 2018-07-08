@@ -29,6 +29,16 @@ class AdminController extends Controller
     }
 
     /**
+     * @Route("/questions", name="question_list")
+     */
+    public function questions(Request $request)
+    {
+        $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
+
+        return $this->render('admin/question/list.html.twig', ['questions' => $questions]);
+    }
+
+    /**
      * @Route("/question/new", name="question_new")
      */
     public function newQuestion(Request $request)
@@ -44,18 +54,44 @@ class AdminController extends Controller
             $question = $form->getData();
             $em->persist($question);
             $em->flush();
+
+            return $this->redirectToRoute("adminquestion_list");
         }
 
         return $this->render('admin/question/new.html.twig', ['form' => $form->createView()]);
     }
 
     /**
-     * @Route("/questions", name="question_list")
+     * @Route("/question/edit/{id}", name="question_edit")
      */
-    public function questions(Request $request)
+    public function editQuestion(Request $request, $id)
     {
-        $questions = $this->getDoctrine()->getRepository(Question::class)->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $question = $this->getDoctrine()->getRepository(Question::class)->find($id);
 
-        return $this->render('admin/question/list.html.twig', ['list' => 'listlll']);
+        $form = $this->createForm(QuestionType::class, $question);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em->flush();
+
+            return $this->redirectToRoute("adminquestion_list");
+        }
+
+        return $this->render('admin/question/new.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/question/delete/{id}", name="question_delete")
+     */
+    public function deleteQuestion($id)
+    {
+        $question = $this->getDoctrine()->getRepository(Question::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($question);
+        $em->flush();
+
+        return $this->redirectToRoute("adminquestion_list");
     }
 }

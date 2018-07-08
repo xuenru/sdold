@@ -29,7 +29,7 @@ class Question
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Answerchoice", mappedBy="question", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Answerchoice", mappedBy="question", cascade={"persist", "remove"})
      */
     private $answerchoices;
 
