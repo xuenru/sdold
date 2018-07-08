@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Level;
 use App\Entity\Question;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,21 +15,20 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description')
-            ->add('options', CollectionType::class, [
-                'entry_type'    => OptionType::class,
-                'entry_options' => ['label' => false],
-                'by_reference'  => false,
-                'allow_add'     => true,
-                'allow_delete'  => true,
-            ])
-            ->add('answer')
             ->add('level', ChoiceType::class, [
                 'choices' => [
                     'débutant'      => 1,
                     'intermédiaire' => 2,
                     'avancé'        => 3,
                 ],
+            ])
+            ->add('description')
+            ->add('answerchoices', CollectionType::class, [
+                'entry_type'    => AnswerchoiceType::class,
+                'entry_options' => ['label' => false],
+                'by_reference'  => false,
+                'allow_add'     => true,
+                'allow_delete'  => true,
             ])
             ->add('Submit', SubmitType::class, ['attr' => ['class' => 'btn btn-success']]);
     }

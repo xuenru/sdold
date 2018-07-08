@@ -29,14 +29,9 @@ class Question
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity="Answerchoice", mappedBy="question", cascade={"persist"})
      */
-    private $answer;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Option", mappedBy="question")
-     */
-    private $options;
+    private $answerchoices;
 
     /**
      * @ORM\ManyToMany(targetEntity="Test", inversedBy="questions")
@@ -45,13 +40,25 @@ class Question
 
     public function __construct()
     {
-        $this->options = new ArrayCollection();
+        $this->answerchoices = new ArrayCollection();
         $this->tests = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(int $level): self
+    {
+        $this->level = $level;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -66,43 +73,31 @@ class Question
         return $this;
     }
 
-    public function getAnswer(): ?string
-    {
-        return $this->answer;
-    }
-
-    public function setAnswer(string $answer): self
-    {
-        $this->answer = $answer;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|Option[]
+     * @return Collection|Answerchoice[]
      */
-    public function getOptions(): Collection
+    public function getAnswerchoices(): Collection
     {
-        return $this->options;
+        return $this->answerchoices;
     }
 
-    public function addOption(Option $option): self
+    public function addAnswerchoice(Answerchoice $answerchoice): self
     {
-        if (!$this->options->contains($option)) {
-            $this->options[] = $option;
-            $option->setQuestion($this);
+        if (!$this->answerchoices->contains($answerchoice)) {
+            $this->answerchoices[] = $answerchoice;
+            $answerchoice->setQuestion($this);
         }
 
         return $this;
     }
 
-    public function removeOption(Option $option): self
+    public function removeAnswerchoice(Answerchoice $answerchoice): self
     {
-        if ($this->options->contains($option)) {
-            $this->options->removeElement($option);
+        if ($this->answerchoices->contains($answerchoice)) {
+            $this->answerchoices->removeElement($answerchoice);
             // set the owning side to null (unless already changed)
-            if ($option->getQuestion() === $this) {
-                $option->setQuestion(null);
+            if ($answerchoice->getQuestion() === $this) {
+                $answerchoice->setQuestion(null);
             }
         }
 
@@ -131,18 +126,6 @@ class Question
         if ($this->tests->contains($test)) {
             $this->tests->removeElement($test);
         }
-
-        return $this;
-    }
-
-    public function getLevel(): ?int
-    {
-        return $this->level;
-    }
-
-    public function setLevel(int $level): self
-    {
-        $this->level = $level;
 
         return $this;
     }

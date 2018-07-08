@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\OptionRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\AnswerchoiceRepository")
  */
-class Option
+class Answerchoice
 {
     /**
      * @ORM\Id()
@@ -27,7 +27,12 @@ class Option
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Question", inversedBy="options")
+     * @ORM\Column(type="boolean")
+     */
+    private $isRight;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Question", inversedBy="answerchoices")
      */
     private $question;
 
@@ -68,6 +73,18 @@ class Option
     public function setQuestion(?Question $question): self
     {
         $this->question = $question;
+
+        return $this;
+    }
+
+    public function getIsRight(): ?bool
+    {
+        return $this->isRight;
+    }
+
+    public function setIsRight(bool $isRight): self
+    {
+        $this->isRight = $isRight;
 
         return $this;
     }

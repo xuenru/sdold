@@ -3,11 +3,11 @@
 {% block body %}
     <div class="container">
         {{ form_start(form) }}
+        {{ form_row(form.level) }}
         {{ form_row(form.description) }}
-        <div>{{ form.options.vars.name }}</div>
-        <ul class="options" data-prototype="{{ form_widget(form.options.vars.prototype)|e('html_attr') }}">
-            {% for row in form.options %}
-                <li>{{ form_row(row) }}</li>
+        <ul class="options " data-prototype="{{ form_widget(form.answerchoices.vars.prototype)|e('html_attr') }}">
+            {% for option in form.answerchoices %}
+                <li>{{ form_row(option) }}</li>
             {% endfor %}
         </ul>
         {{ form_end(form) }}

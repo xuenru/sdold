@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Answerchoice;
 use App\Entity\Level;
 use App\Entity\Option;
 use App\Entity\Question;
@@ -34,22 +35,15 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $question = new Question();
-        $question->setDescription('test desc')
-            ->setLevel(2)->setAnswer('A');
-
-        $option1 = new Option();
-        $option1->setLable('A')->setDescription('option safd !111');
-        $question->addOption($option1);
-
-        $option2 = new Option();
-        $option2->setLable('B')->setDescription('option 222');
-        $question->addOption($option2);
 
         $form = $this->createForm(QuestionType::class, $question);
 
         $form->handleRequest($request);
-        if ($form->isDisabled() && $form->isValid()) {
-            d($form);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Question $question */
+            $question = $form->getData();
+            $em->persist($question);
+            $em->flush();
         }
 
         return $this->render('admin/question/new.html.twig', ['form' => $form->createView()]);
