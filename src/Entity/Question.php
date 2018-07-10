@@ -11,6 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Question
 {
+    CONST LEVEL_EASY_CODE = 1;
+    CONST LEVEL_EASY_LABEL = 'Débutant';
+    CONST LEVEL_MEDIUM_CODE = 2;
+    CONST LEVEL_MEDIUM_LABEL = 'Intermédiaire';
+    CONST LEVEL_HARD_CODE = 3;
+    CONST LEVEL_HARD_LABEL = 'Avancéant';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

@@ -11,6 +11,11 @@ jQuery(document).ready(function () {
     // add the "add a option" anchor and li to the options ul
     $collectionHolder.append($newLinkLi);
 
+    //add delete button for each option
+    $('ul.options li').each(function () {
+        addTagFormDeleteLink($(this));
+    });
+
     // count the current form inputs we have (e.g. 2), use that as the new
     // index when inserting a new item (e.g. 2)
     $collectionHolder.data('index', $collectionHolder.find(':input').length);
@@ -46,7 +51,7 @@ function addoptionForm($collectionHolder, $newLinkLi) {
 }
 
 function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button type="button" class="btn btn-danger">Delete this tag</button><br><br>');
+    var $removeFormButton = $('<button type="button" class="btn btn-danger">Supprimer option</button><br><br>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function (e) {

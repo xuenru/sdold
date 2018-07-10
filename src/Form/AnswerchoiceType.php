@@ -13,13 +13,13 @@ class AnswerchoiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $choices)
     {
         $builder
-            ->add('lable', ChoiceType::class, [
+            ->add('label', ChoiceType::class, [
                 'choices' => [
-                    'A' => 'A',
-                    'B' => 'B',
-                    'C' => 'C',
-                    'D' => 'D',
-                    'E' => 'E',
+                    'A' => '1',
+                    'B' => '2',
+                    'C' => '3',
+                    'D' => '4',
+                    'E' => '5',
                 ],
             ])
             ->add('description')
