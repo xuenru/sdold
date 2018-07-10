@@ -5,16 +5,17 @@ var $addoptionButton = $('<button type="button" class="btn btn-info">Ajouter opt
 var $newLinkLi = $('<li></li>').append($addoptionButton);
 
 jQuery(document).ready(function () {
+    //add delete button for each option
+    $('ul.options li').each(function () {
+        addTagFormDeleteLink($(this));
+    });
+
     // Get the ul that holds the collection of options
     $collectionHolder = $('ul.options');
 
     // add the "add a option" anchor and li to the options ul
     $collectionHolder.append($newLinkLi);
 
-    //add delete button for each option
-    $('ul.options li').each(function () {
-        addTagFormDeleteLink($(this));
-    });
 
     // count the current form inputs we have (e.g. 2), use that as the new
     // index when inserting a new item (e.g. 2)

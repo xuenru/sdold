@@ -16,11 +16,7 @@ class QuestionType extends AbstractType
     {
         $builder
             ->add('level', ChoiceType::class, [
-                'choices' => [
-                    Question::LEVEL_EASY_LABEL   => Question::LEVEL_EASY_CODE,
-                    Question::LEVEL_MEDIUM_LABEL => Question::LEVEL_MEDIUM_CODE,
-                    Question::LEVEL_HARD_LABEL   => Question::LEVEL_HARD_CODE,
-                ],
+                'choices' => Question::getLevelListForChoice(),
             ])
             ->add('description')
             ->add('answerchoices', CollectionType::class, [

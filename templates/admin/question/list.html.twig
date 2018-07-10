@@ -14,7 +14,7 @@
                 <tbody>
                 {% for question in questions %}
                     <tr>
-                        <td>{{ question.level }}</td>
+                        <td>{{ question.levelLabel }}</td>
                         <td>{{ question.description }}</td>
                         <td>
                             <a href="/admin/question/edit/{{ question.id }}" class="btn btn-info">Modifier</a>

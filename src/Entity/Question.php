@@ -136,4 +136,29 @@ class Question
 
         return $this;
     }
+
+    public function getLevelList()
+    {
+        return [
+            Question::LEVEL_EASY_CODE   => Question::LEVEL_EASY_LABEL,
+            Question::LEVEL_MEDIUM_CODE => Question::LEVEL_MEDIUM_LABEL,
+            Question::LEVEL_HARD_CODE   => Question::LEVEL_HARD_LABEL,
+        ];
+    }
+
+    public static function getLevelListForChoice()
+    {
+        return [
+            Question::LEVEL_EASY_LABEL   => Question::LEVEL_EASY_CODE,
+            Question::LEVEL_MEDIUM_LABEL => Question::LEVEL_MEDIUM_CODE,
+            Question::LEVEL_HARD_LABEL   => Question::LEVEL_HARD_CODE,
+        ];
+    }
+
+    public function getLevelLabel()
+    {
+        $levelList = $this->getLevelList();
+
+        return $levelList[$this->getLevel()];
+    }
 }
