@@ -7,6 +7,7 @@ use App\Entity\Candidate;
 use App\Entity\Level;
 use App\Entity\Option;
 use App\Entity\Question;
+use App\Form\CandidateType;
 use App\Form\QuestionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,5 +105,70 @@ class AdminController extends Controller
         $candidates = $this->getDoctrine()->getRepository(Candidate::class)->findAll();
 
         return $this->render('admin/candidate/list.html.twig', ['candidates' => $candidates]);
+    }
+
+    /**
+     * @Route("/candidate/new", name="candidate_new")
+     */
+    public function newCandidate(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $candidate = new Candidate();
+
+        $form = $this->createForm(CandidateType::class, $candidate);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Candidate $question */
+            $candidate = $form->getData();
+            $em->persist($candidate);
+            $em->flush();
+
+            return $this->redirectToRoute("admincandidate_list");
+        }
+
+        return $this->render('admin/candidate/edit.html.twig', ['form' => $form->createView()]);
+
+    }
+
+    /**
+     * @Route("/candidate/edit/{id}", name="candidate_edit")
+     * @param Request $request
+     * @param         $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function editCandidate(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $candidate = $this->getDoctrine()->getRepository(Candidate::class)->find($id);
+
+        $form = $this->createForm(CandidateType::class, $candidate);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em->flush();
+
+            return $this->redirectToRoute("admincandidate_list");
+        }
+
+        return $this->render('admin/candidate/edit.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/candidate/delete/{id}", name="candidate_delete")
+     * @param $id
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteCandidate($id)
+    {
+        $candidate = $this->getDoctrine()->getRepository(Candidate::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($candidate);
+        $em->flush();
+
+        return $this->redirectToRoute("admincandidate_list");
     }
 }
