@@ -45,10 +45,16 @@ class Question
      */
     private $tests;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Score", mappedBy="question")
+     */
+    private $questionScores;
+
     public function __construct()
     {
         $this->answerchoices = new ArrayCollection();
         $this->tests = new ArrayCollection();
+        $this->questionScores = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,5 +166,36 @@ class Question
         $levelList = $this->getLevelList();
 
         return $levelList[$this->getLevel()];
+    }
+
+    /**
+     * @return Collection|Score[]
+     */
+    public function getQuestionScores(): Collection
+    {
+        return $this->questionScores;
+    }
+
+    public function addQuestionScore(Score $questionScore): self
+    {
+        if (!$this->questionScores->contains($questionScore)) {
+            $this->questionScores[] = $questionScore;
+            $questionScore->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestionScore(Score $questionScore): self
+    {
+        if ($this->questionScores->contains($questionScore)) {
+            $this->questionScores->removeElement($questionScore);
+            // set the owning side to null (unless already changed)
+            if ($questionScore->getQuestion() === $this) {
+                $questionScore->setQuestion(null);
+            }
+        }
+
+        return $this;
     }
 }

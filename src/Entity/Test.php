@@ -24,18 +24,41 @@ class Test
     private $questions;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Exame", inversedBy="test")
+     * @ORM\ManyToOne(targetEntity="Candidate", inversedBy="tests")
      */
-    private $exames;
+    private $candidate;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $totalScore;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Score", mappedBy="test")
+     */
+    private $questionScores;
 
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->questionScores = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getTotalScore(): ?int
+    {
+        return $this->totalScore;
+    }
+
+    public function setTotalScore(int $totalScore): self
+    {
+        $this->totalScore = $totalScore;
+
+        return $this;
     }
 
     /**
@@ -66,15 +89,47 @@ class Test
         return $this;
     }
 
-    public function getExames(): ?Exame
+    public function getCandidate(): ?Candidate
     {
-        return $this->exames;
+        return $this->candidate;
     }
 
-    public function setExames(?Exame $exames): self
+    public function setCandidate(?Candidate $candidate): self
     {
-        $this->exames = $exames;
+        $this->candidate = $candidate;
 
         return $this;
     }
+
+    /**
+     * @return Collection|Score[]
+     */
+    public function getQuestionScores(): Collection
+    {
+        return $this->questionScores;
+    }
+
+    public function addQuestionScore(Score $questionScore): self
+    {
+        if (!$this->questionScores->contains($questionScore)) {
+            $this->questionScores[] = $questionScore;
+            $questionScore->setTest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestionScore(Score $questionScore): self
+    {
+        if ($this->questionScores->contains($questionScore)) {
+            $this->questionScores->removeElement($questionScore);
+            // set the owning side to null (unless already changed)
+            if ($questionScore->getTest() === $this) {
+                $questionScore->setTest(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
