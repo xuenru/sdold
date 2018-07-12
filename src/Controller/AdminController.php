@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Answerchoice;
+use App\Entity\Candidate;
 use App\Entity\Level;
 use App\Entity\Option;
 use App\Entity\Question;
@@ -93,5 +94,15 @@ class AdminController extends Controller
         $em->flush();
 
         return $this->redirectToRoute("adminquestion_list");
+    }
+
+    /**
+     * @Route("/candidates", name="candidate_list")
+     */
+    public function candidates()
+    {
+        $candidates = $this->getDoctrine()->getRepository(Candidate::class)->findAll();
+
+        return $this->render('admin/candidate/list.html.twig', ['candidates' => $candidates]);
     }
 }

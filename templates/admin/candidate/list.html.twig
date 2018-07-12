@@ -1,0 +1,31 @@
+{% extends 'admin/base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <a href="/admin/candidate/new" class="btn btn-success">Nouveau Candidat</a>
+        {% if candidates %}
+            <table id="candidates" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Niveaus</th>
+                    <th>Candidates</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for candidate in candidates %}
+                    <tr>
+                        <td>{{ candidate.levelLabel }}</td>
+                        <td>{{ candidate.firstName }} {{ candidate.lastName }}</td>
+                        <td>
+                            <a href="/admin/candidate/edit/{{ candidate.id }}" class="btn btn-info">Modifier</a>
+                            <a href="/admin/candidate/delete/{{ candidate.id }}" class="btn btn-danger">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>pas de candidates</p>
+        {% endif %}
+    </div>
+{% endblock %}
